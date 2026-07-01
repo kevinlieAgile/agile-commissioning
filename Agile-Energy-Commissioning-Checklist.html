@@ -149,22 +149,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 @media(max-width:400px){.hdr-l .le{display:none}.fb{padding:0 8px 60px}}
 @media print{
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  body>*:not(#printOverlay){display:none!important}
-  #printOverlay{display:block!important;position:static!important;overflow:visible!important}
-  .print-banner{display:none!important}
-  #printContent{padding:0;max-width:none}
-  #printContent .sec{break-inside:avoid;margin-bottom:8pt}
-  .print-footer-bar{display:block!important}
+  #gate,#confirmModal,#printOverlay{display:none!important}
+  .hdr,.type-wrap,.gen-btn-wrap,.btn-row,.add-btn,.del-btn,
+  .rti-del,.rti-btns,.inv-dc-del,.inv-dc-btns,.sig-clr,.photo-area{display:none!important}
+  #app{display:block!important}
+  body{background:#fff}
+  .fb{margin:0;padding:4mm;max-width:none}
+  .sec{break-inside:avoid;box-shadow:none;border:1px solid #c4c8e0;margin-bottom:6pt}
+  .title-block{box-shadow:none;border:1px solid #c4c8e0;border-left:5px solid #1a2542;margin-bottom:6pt}
+  /* Wide tables — compress to fit A4 */
+  .wide-tbl-wrap{overflow:visible!important}
+  .wide-tbl-wrap .compact-t{font-size:6.5pt!important;table-layout:fixed;width:100%!important}
+  .wide-tbl-wrap .compact-t th{white-space:normal!important;padding:3pt 2pt!important;min-width:0!important;line-height:1.2}
+  .wide-tbl-wrap .compact-t td{padding:3pt 2pt!important;min-width:0!important}
+  .wide-tbl-wrap .compact-t td input{font-size:6.5pt!important;min-width:0!important;width:100%!important}
 }
-.print-footer-bar{display:none;font-size:9pt;color:#888;text-align:center;padding-top:6mm;border-top:1px solid #ddd;margin-top:8mm}
-/* Wide tables — fit A4 in print */
-@media print{
-  .wide-print{overflow:visible!important}
-  .wide-print *{min-width:0!important;white-space:normal!important;word-break:break-word}
-  .wide-print table{font-size:6.5pt!important;table-layout:fixed;width:100%!important}
-  .wide-print th{padding:3pt 2pt!important;line-height:1.2}
-  .wide-print td{padding:3pt 2pt!important}
-  .wide-print td input{font-size:6.5pt!important}
+.print-footer-bar{display:none}
+/* Wide tables — screen: allow wrapping at ≥700px so no horizontal scroll */
+.wide-tbl-wrap{overflow-x:auto}
+@media(min-width:700px){
+  .wide-tbl-wrap{overflow-x:visible}
+  .wide-tbl-wrap .compact-t th{white-space:normal;min-width:0;font-size:10px;line-height:1.3;padding:6px 5px}
+  .wide-tbl-wrap .compact-t td input{min-width:0}
 }
 </style>
 </head><body>
@@ -330,8 +336,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <div class="sec">
       <div class="sec-h">Voc, Isc and Polarity Test</div>
       <div class="sec-b">
-        <div class="tscroll wide-print">
-          <table class="dt"><thead><tr><th>Inverter / String No.</th><th>Voc Rooftop (V)</th><th>Isc Rooftop (A)</th><th>Polarity Check (RTI)</th><th>Voc Inv DC iso (V)</th><th>Isc Inv DC iso (A)</th><th>Polarity Check (Inv DC iso)</th></tr></thead><tbody id="vocB"></tbody></table>
+        <div class="wide-tbl-wrap">
+          <table class="dt compact-t"><thead><tr><th>Inverter / String No.</th><th>Voc Rooftop (V)</th><th>Isc Rooftop (A)</th><th>Polarity (RTI)</th><th>Voc DC iso (V)</th><th>Isc DC iso (A)</th><th>Polarity (DC iso)</th></tr></thead><tbody id="vocB"></tbody></table>
         </div>
         <div class="btn-row"><button class="add-btn" onclick="addRow('vocB',7)">+ Add String</button><button class="del-btn" onclick="delRow('vocB')">− Delete Last</button></div>
         <div class="note">Note: Voc/Isc values at rooftop and inverter station should be taken as simultaneously as possible.</div>
@@ -389,8 +395,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <div class="sec">
       <div class="sec-h">Protection Setpoints</div>
       <div class="sec-b">
-        <div class="tscroll">
-          <table class="pt"><thead><tr><th>Parameter</th><th>V&gt;</th><th>V&lt;</th><th>F&gt;</th><th>F&lt;</th><th>VVS</th><th>ROCOF</th><th>Fault Reset</th><th>Other</th></tr></thead>
+        <div class="wide-tbl-wrap">
+          <table class="pt compact-t"><thead><tr><th>Parameter</th><th>V&gt;</th><th>V&lt;</th><th>F&gt;</th><th>F&lt;</th><th>VVS</th><th>ROCOF</th><th>Fault Reset</th><th>Other</th></tr></thead>
           <tbody>
             <tr><td>Disconnection Value</td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td></tr>
             <tr><td>Disconnection Time</td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td></tr>
@@ -404,8 +410,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <div class="sec">
       <div class="sec-h">Meter Reading Test</div>
       <div class="sec-b">
-        <div class="tscroll">
-          <table class="dt"><thead><tr><th></th><th>Red Phase Voltage (V)</th><th>White Phase Voltage (V)</th><th>Blue Phase Voltage (V)</th><th>Red Phase Current (A)</th><th>White Phase Current (A)</th><th>Blue Phase Current (A)</th></tr></thead>
+        <div class="wide-tbl-wrap">
+          <table class="dt compact-t"><thead><tr><th></th><th>Red Phase Voltage (V)</th><th>White Phase Voltage (V)</th><th>Blue Phase Voltage (V)</th><th>Red Phase Current (A)</th><th>White Phase Current (A)</th><th>Blue Phase Current (A)</th></tr></thead>
           <tbody>
             <tr><td class="lbl-cell">Meter Screen Reading</td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td></tr>
             <tr><td class="lbl-cell">Multimeter Reading</td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td><td><input /></td></tr>
@@ -500,22 +506,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <div class="sec">
       <div class="sec-h">Battery Commissioning Information</div>
       <div class="sec-b">
-        <div class="tscroll">
-          <table class="dt">
+        <div class="wide-tbl-wrap">
+          <table class="dt compact-t">
             <thead>
               <tr>
-                <th rowspan="2" style="min-width:90px;vertical-align:middle">Battery / String</th>
+                <th rowspan="2" style="vertical-align:middle">Battery / String</th>
                 <th colspan="2" style="text-align:center;border-bottom:1px solid rgba(255,255,255,.25)">Nameplate</th>
                 <th colspan="6" style="text-align:center;border-bottom:1px solid rgba(255,255,255,.25)">Commissioning Information (Measured)</th>
               </tr>
               <tr>
                 <th>Voltage (V)</th><th>Capacity (Ah)</th>
-                <th>Battery Overall Voltage (V)</th>
+                <th>Overall Voltage (V)</th>
                 <th>Continuity &amp; Polarity (Y/N)</th>
-                <th>Earth Continuity (&#937;)</th>
-                <th>Insulation Resistance +ve to E (M&#937;)</th>
-                <th>Insulation Resistance &#8722;ve to E (M&#937;)</th>
-                <th>Impedance (m&#937;) Lead-acid</th>
+                <th>Earth Cont. (&#937;)</th>
+                <th>IR +ve to E (M&#937;)</th>
+                <th>IR &#8722;ve to E (M&#937;)</th>
+                <th>Impedance (m&#937;)</th>
               </tr>
             </thead>
             <tbody id="bessStrB"></tbody>
@@ -622,7 +628,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
     <div class="gen-btn-wrap" style="text-align:center;padding:12px 0 36px">
       <button class="btn-p" style="padding:13px 44px;font-size:15px;border-radius:6px" onclick="generatePDF()">Generate PDF</button>
-      <p style="font-size:12px;color:#8892b0;margin-top:9px"><strong>Desktop:</strong> Press Ctrl+P / ⌘+P → Save as PDF<br><strong>Mobile:</strong> Tap Share / Menu → Print → Save as PDF</p>
+      <p style="font-size:12px;color:#8892b0;margin-top:9px">Choose <strong>Save as PDF</strong> in the print dialog that opens.</p>
     </div>
   </div>
 </div>
@@ -826,29 +832,7 @@ function initSig(id){
 function clrSig(id){const c=document.getElementById(id);if(c) c.getContext('2d').clearRect(0,0,c.width,c.height);}
 
 /* ── GENERATE PDF ── */
-function generatePDF(){
-  const app=document.getElementById('app');
-  const clone=app.cloneNode(true);
-  const srcEls=app.querySelectorAll('input,textarea,select');
-  const dstEls=clone.querySelectorAll('input,textarea,select');
-  srcEls.forEach((el,i)=>{
-    if(!dstEls[i]) return;
-    if(el.type==='radio'||el.type==='checkbox') dstEls[i].checked=el.checked;
-    else if(el.type!=='file') dstEls[i].value=el.value;
-  });
-  app.querySelectorAll('canvas').forEach((c,i)=>{
-    const dst=clone.querySelectorAll('canvas')[i];if(!dst) return;
-    const img=document.createElement('img');img.src=c.toDataURL();
-    img.style.cssText='width:'+c.width+'px;height:'+c.height+'px;border:1.5px solid #c4c8e0;border-radius:4px;display:block';
-    dst.parentNode.replaceChild(img,dst);
-  });
-  const cloneHdr=clone.querySelector('.hdr');if(cloneHdr) cloneHdr.remove();
-  const cloneType=clone.querySelector('.type-wrap');if(cloneType) cloneType.remove();
-  const pc=document.getElementById('printContent');pc.innerHTML='';
-  const fb=clone.querySelector('.fb');if(fb) pc.appendChild(fb);else pc.appendChild(clone);
-  document.getElementById('printOverlay').classList.add('active');
-  document.getElementById('printOverlay').scrollTop=0;
-}
+function generatePDF(){ window.print(); }
 function closePrint(){document.getElementById('printOverlay').classList.remove('active');}
 
 if(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){
@@ -861,4 +845,5 @@ function resizeSigCanvases(){
 }
 window.addEventListener('resize',resizeSigCanvases);
 </script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}</script>
 </body></html>
